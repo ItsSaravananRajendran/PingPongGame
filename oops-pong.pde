@@ -214,6 +214,7 @@ class player extends paddle{
 		this.paddleSpeed+=.01;
 	}
 
+	//paddle movements with mouse
 	public void movePaddleMouse(float mouseY){
 		paddleY = mouseY;
 		this.paddleSpeed = 1;
