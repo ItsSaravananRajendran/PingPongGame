@@ -8,8 +8,8 @@ string scoreStatement;
 int r,g,b;
 // player declaration
 computer comp= new computer();
-player you = new player();	
-	
+player you = new player();
+
 
 //instructionBanner
 void instructionBanner(){
@@ -46,7 +46,7 @@ void playButton(){
 	fill(150);
 	rect(330,405,140,40,5);
 	fill(0);
-	text("play",350,439);	
+	text("play",350,439);
 }
 
 //beginners Button
@@ -99,7 +99,7 @@ void gameplayInstruction(){
 	textSize(35);
 	fill(255,0,0);
 	text(instruction3,60,540);
-				
+
 }
 
 
@@ -108,11 +108,11 @@ void mousePressed(){
 	if(comp.score>9 || you.score > 9){
 		//resets the games
 		startGame = false;
-		selectLevel=false;	
+		selectLevel=false;
 		timedOut=false;
 		comp.score=0;
 		you.score=0;
-		loop();	
+		loop();
 	}
 	//starts the game
 	if(!startGame){
@@ -128,13 +128,13 @@ void mousePressed(){
 				dampingFactor=0.55;
 				selectLevel=true;
 			}
-			
+
 			//intermediate button
 			if(mouseX > 270 && mouseX< 515&& mouseY>300 && mouseY<350){
 				dampingFactor=0.60;
 				selectLevel=true;
 			}
-			
+
 			if(mouseX > 550 && mouseX< 720 && mouseY>300 && mouseY<350){
 				dampingFactor=0.65;
 				selectLevel=true;
@@ -157,20 +157,20 @@ abstract class paddle{
 	int paddleLength=90, paddleWidth = 10;
 	//score
 	public int score;
-	//position 
+	//position
 	float paddleY = 255.0 , paddleX;
 	//speed
 	float paddleSpeed=.1;
 	//hitting the ball
 	abstract void paddleHit();
 
-	
+
 	//displays the paddle
 	public void paddleDisplay(){
 		fill(255);
 		rect(this.paddleX,this.paddleY,this.paddleWidth,this.paddleLength,5);
 	}
-	
+
 	//bring within range
 	void backToRange(){
 		if(this.paddleY>=540){
@@ -196,23 +196,29 @@ class player extends paddle{
 			if(ballX>755){
 				//reflect ball
 				paddleBounce();
-				//increases the ballspeed	
+				//increases the ballspeed
 				if(dirX<0){
-					dirX-=this.paddleSpeed;	
-				}			
+					dirX-=this.paddleSpeed;
+				}
 				else{
 					dirX-=this.paddleSpeed;
-				}			
-				this.paddleSpeed=0;	
+				}
+				this.paddleSpeed=0;
 			}
 		}
-	}		
-	
+	}
+
 	//padddle movement
 	public void movePaddle(float paddledir){
 		paddleY+=paddledir;
 		this.paddleSpeed+=.01;
 	}
+
+	public void movePaddleMouse(float mouseY){
+		paddleY = mouseY;
+		this.paddleSpeed = 1;
+	}
+
 }
 
 //computer class
@@ -222,7 +228,7 @@ class computer extends paddle{
 		this.paddleX=20; //0+20
 		this.score=0;
 	}
-		
+
 	void paddleHit(){
 		if(this.paddleY<=ballY && ballY <= (paddleY+this.paddleLength)){
 			if(ballX<45){
@@ -230,16 +236,16 @@ class computer extends paddle{
 				paddleBounce();
 				//transfers speed
 				if(dirX<0){
-					dirX-=this.paddleSpeed;	
-				}			
+					dirX-=this.paddleSpeed;
+				}
 				else{
 					dirX-=this.paddleSpeed;
-				}		
+				}
 			}
 			this.paddleSpeed=0;
 		}
 	}
-	
+
 	void paddleMovement(){
 		paddleY=(float) (dampingFactor*ballY);
 		this.paddleSpeed+=.1;
@@ -252,7 +258,7 @@ void keyPressed(){
 	//when w is pressed
 	if(keypair==119){
 		you.movePaddle(-5.0);
-	}		
+	}
 	//when s is pressed
 	if(keypair==115){
 		you.movePaddle(5.0);
@@ -263,26 +269,28 @@ void keyReleased(){
 	you.paddleSpeed=0.0;
 }
 
-
+void mouseMoved(){
+	you.movePaddleMouse(mouseY);
+}
 
 void setup(){
 	//canvas size
-	size(800,600);	
+	size(800,600);
 	background(0);
 	//sets the speed
 	speedX=2;
 	speedY=2;
 	//margin
 	topMargin=30;
-	bottomMargin=height;	 
+	bottomMargin=height;
 	//game options
 	startGame=false;
-	selectLevel=false;	
+	selectLevel=false;
 	timedOut=false;
 	//color
 	r=100;
 	g=150;
-	b=15;	
+	b=15;
 	//loads font
 	textFont(createFont("ARCADECLASSIC.TTF",120));
 	timer=2.5;
@@ -298,7 +306,7 @@ void draw(){
 			textSize(60);
 			fill(150);
 			text("Comp",150,300);
-			text("you",550,300);		
+			text("you",550,300);
 			if(timedOut){
 				ballMove();
 				ballDisplay();
@@ -314,24 +322,24 @@ void draw(){
 				you.backToRange();
 			}
 			else{
-				
+
 				textSize(50);
 				fill(255);
 				text("Game starts in ",220,250);
-				textSize(60);	
+				textSize(60);
 				timer-=0.01;
 				text(timer,340,350);
 				if(timer<0.1){
 					timedOut=true;
 				}
-				
+
 			}
-			
+
 		}
 		//difficulty selecting screen
 		else{
 			pongBanner(250,50);
-			beginnersButton();	
+			beginnersButton();
 			intermediateButton();
 			expertButton();
 			gameplayInstruction();
@@ -343,9 +351,9 @@ void draw(){
 			setDirection();
 			timer=3.0;
 		}
-	}	
-	//Start game screen 
-	else{	
+	}
+	//Start game screen
+	else{
 		pongBanner(250,100);
 		playButton();
 		instructionBanner();
@@ -382,7 +390,7 @@ void ballDisplay(){
 	ellipse(ballX,ballY,ballRadius,ballRadius);
 }
 
-//reflect from top and bottom 
+//reflect from top and bottom
 void ballBounce(){
 	if(ballY>(height-ballRadius) || ballY<(ballRadius)){
 		dirY*=-1;
@@ -440,13 +448,3 @@ void paddleBounce(){
 	dirX*=-1;
 	speedX*=-1;
 }
-
-
-
-
-
-
-
-
-
-  
