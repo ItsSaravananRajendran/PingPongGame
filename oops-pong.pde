@@ -255,16 +255,29 @@ class computer extends paddle{
 
 //user control
 void keyPressed(){
-	int keypair=(int)key;
-	//when w is pressed
-	if(keypair==119){
-		you.movePaddle(-5.0);
+	if (key == CODED){
+		//when up arrow is pressed
+		if(keyCode == UP){
+			you.movePaddle(-5.0);
+		}
+		//when down arrow is pressed
+		if(keyCode == DOWN){
+			you.movePaddle(5.0);
+		}
 	}
-	//when s is pressed
-	if(keypair==115){
-		you.movePaddle(5.0);
+	else{
+		int keypair=(int)key;
+		//when w is pressed
+		if(keypair==119){
+			you.movePaddle(-5.0);
+		}
+		//when s is pressed
+		if(keypair==115){
+			you.movePaddle(5.0);
+		}
 	}
 }
+
 
 void keyReleased(){
 	you.paddleSpeed=0.0;
