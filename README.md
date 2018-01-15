@@ -3,4 +3,4 @@
 # PingPongGame
 This is a 2D ping pong game created using processings.js 
 
-[Play here](https://thunderbo1t.github.io/PingPongGame/play.html)
+[Play here](https://thunderbo1t.github.io/PingPongGame)
